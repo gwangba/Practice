@@ -1,37 +1,31 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+char A[1000001] = " ";
+int alphabet[26] = { 0 }; // 알파벳 갯수 세기
 
 int main(void) {
-	int n;
+	scanf("%s", A);
 
-	scanf("%d", &n);
-	
-	for (int i = 0; i <=(2 * n - 1)/2; i++) { //첫째줄부터 절반까지의 상단 부분
-		
-			for(int j =0; j<n-i-1; j++){
-				printf(" ");
-			}
-			for (int j = 0; j < (i+1)*2-1; j++) {
-				printf("*");
-			}
-			
-		
-		printf("\n");
+	for (int i = 0; A[i] != '\0'; i++) {
+		if (A[i] >= 'a' && A[i] <= 'z') { // 소문자 일 때
+			alphabet[A[i] - 'a']++;
+		}
+		else // 대문자 일 때
+			alphabet[A[i] - 'A']++;
 	}
 
-	for (int i = 0; i < 2 * n - 1;i++) { //절반부터 마지막 줄까지의 하단 부분
-		
-			for(int j =0; j<i+1; j++){
-				printf(" ");
-			}
-			for (int j = 0; j < (2*n-1)-(i+1)*2; j++) {
-				printf("*");
-			}
-			
-		
-		printf("\n");
+	int max = -1;
+	char result = '?';
+
+	for (int i = 0; i < 26; i++) {
+		if (alphabet[i] > max) {
+			max = alphabet[i];
+			result = i + 'A';
+		}
+		else if (alphabet[i] == max) {
+			result = '?';
+		}
 	}
 
-
-} // n-1 번 공백, 1번 별, n-1번 공백
-// n-2 번 공백, 3번 별, n-2번 공백
+	printf("%c", result);
+}
