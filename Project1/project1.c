@@ -1,31 +1,39 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 char A[1000001] = " ";
-int alphabet[26] = { 0 }; // 알파벳 갯수 세기
 
 int main(void) {
 	scanf("%s", A);
-
+	int count = 0;
 	for (int i = 0; A[i] != '\0'; i++) {
-		if (A[i] >= 'a' && A[i] <= 'z') { // 소문자 일 때
-			alphabet[A[i] - 'a']++;
+
+		if (A[i] == 'c' && A[i + 1] == '=')
+
+			i++; // 다다음 인덱스로 점프
+		else if (A[i] == 'c' && A[i + 1] == '-') i++;
+		else if (A[i] == 'd' && A[i + 1] == 'z' && A[i + 2] == '=') {
+
+			i = i + 2; // 다다다음 으로 점프
 		}
-		else // 대문자 일 때
-			alphabet[A[i] - 'A']++;
+		else if (A[i] == 'd' && A[i + 1] == '-') {
+
+			i++;
+		}
+		else if (A[i] == 'l' && A[i + 1] == 'j') i++;
+		else if (A[i] == 'n' && A[i + 1] == 'j') i++;
+		else if (A[i] == 'n' && A[i + 1] == 'j') i++;
+		else if (A[i] == 's' && A[i + 1] == '=') i++;
+		else if (A[i] == 'z' && A[i + 1] == '=') i++;
+		count++;
 	}
 
-	int max = -1;
-	char result = '?';
-
-	for (int i = 0; i < 26; i++) {
-		if (alphabet[i] > max) {
-			max = alphabet[i];
-			result = i + 'A';
-		}
-		else if (alphabet[i] == max) {
-			result = '?';
-		}
-	}
-
-	printf("%c", result);
+	printf("%d", count);
 }
+/* č	c=
+ć	c-
+dž	dz=
+đ	d-
+lj	lj
+nj	nj
+š	s=
+ž	z= */
