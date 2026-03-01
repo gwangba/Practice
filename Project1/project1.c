@@ -2,38 +2,53 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-char A[101] = " ";
-int alphabet[26] = { 0 };
+char subject_name[51] = " ";
+char class[3] = " ";
 int main(void) {
 
-	int count =0;
-	int n;
-	scanf("%d", &n);
-	
+	float grade_avg_sum = 0; // 전공과목별 (학점 X 과목평점)의 합
+	float grade = 0.0f; // 학점
+	float sum_grade = 0.0f; //학점 합계
+	float grade_avg = 0.0f; // 학점 X 과목평점
 
-	for (int i = 0; i < n; i++) {
-		bool isgroup = true;
-		A[0] = '\0';
-		memset(alphabet, 0, sizeof(alphabet));
-		scanf("%s", A);
-		for (int j = 0; A[j] != '\0'; j++) {
-			
-			if (alphabet[(int)A[j] - 'a'] != 0) {
-				isgroup = false; // 2. 해당 인덱스가 이미 나온적 있으면 그룹단어가 아님
-				break;
-			}
-			if (A[j] != A[j + 1]) { // 1. 만약 그 다음 인덱스에 다른 문자가 왔는데
-				alphabet[(int)A[j] - 'a']++; // (해당 알파벳 이미 나왔음 alphabet[i] 가 1이라면 이미 나왔단 얘기)
+	for (int i = 0; i < 20; i++) {
+		bool isP = false;
+		grade_avg = 0.0f;
+		float class_to_grade = 0.0f; // 과목평점
+		scanf("%s %f %s", subject_name, &grade, class);
 
-			}
-
-
+		if (class[0] == 'A') {
+			if (class[1] == '+') class_to_grade = 4.5f;
+			else class_to_grade = 4.0f;
 		}
-		if(isgroup)
-			count++;
+		else if (class[0] == 'B') {
+			if (class[1] == '+') class_to_grade = 3.5f;
+			else class_to_grade = 3.0f;
+		}
+		else if (class[0] == 'C') {
+			if (class[1] == '+') class_to_grade = 2.5f;
+			else class_to_grade = 2.0f;
+		}
+		else if (class[0] == 'D') {
+			if (class[1] == '+') class_to_grade = 1.5f;
+			else class_to_grade = 1.0f;
+		}
+		else if (class[0] == 'F') {
+			class_to_grade = 0.0f;
+		}
+		else if (class[0] == 'P') {
+			// *** 계산에서 제외되야함 ***
+			isP = true;
+		}
 		
+		if (!isP) { 
+			grade_avg = grade * class_to_grade; //학점 X 과목평점
+			sum_grade += grade;
+		}
+		
+		grade_avg_sum += grade_avg;
 	}
-	printf("%d", count);
+	printf("%f", grade_avg_sum / sum_grade);
 	
 }
-//만약 그 다음 인덱스에 다른 문자가 왔는데 또 같은 문자를 받는다면 그룹단어가 아님
+// 전공평점은 전공과목별(학점 × 과목평점)의 합을 학점의 총합으로 나눈 값이다.
